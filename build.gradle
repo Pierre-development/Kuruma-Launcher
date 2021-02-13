@@ -12,8 +12,23 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    compile fileTree("/Libraries")
 }
 
 test {
     useJUnitPlatform()
+}
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.pierre.launcher.Main'
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
